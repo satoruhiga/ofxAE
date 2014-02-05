@@ -48,6 +48,13 @@ void Composition::setBackward(bool backward)
 
 void Composition::update()
 {
+	for(vector<Marker*>::iterator marker = marker_.begin(); marker != marker_.end(); ++marker) {
+		if((*marker)->getFrom() == getFrame()) {
+			Marker &args = *(*marker);
+			ofNotifyEvent(markerEvent, args);
+		}
+	}
+
 	int frame = frame_.update();
 	if(frame >= 0) {
 		setPropertyFrame(frame);

@@ -1,8 +1,10 @@
 #pragma once
 
 #include "ofxAEDef.h"
+#include "ofxAEMarker.h"
 #include "ofConstants.h"
 #include "ofFbo.h"
+#include "ofEvents.h"
 #include "FrameCounter.h"
 
 class ofCamera;
@@ -11,7 +13,6 @@ OFX_AE_NAMESPACE_BEGIN
 
 class AVLayer;
 class CameraLayer;
-class Marker;
 
 class Composition {
 	friend class Loader;
@@ -78,6 +79,8 @@ public:
 	
 	Marker* getMarker(int index);
 	Marker* getMarker(const string& name);
+	
+	ofEvent<Marker> markerEvent;
 	
 private:
 	ofFbo fbo_;
