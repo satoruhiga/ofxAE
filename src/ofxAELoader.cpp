@@ -51,6 +51,7 @@ void Loader::setupCompositionJson(Composition& comp, const Json::Value& json)
 	if(layers.isArray()) {
 		map<Layer*, int> all;
 		map<Layer*, int> children;
+		map<Layer*, int> trackmatte;
 		int layer_count = layers.size();
 		for(int i = layer_count; i--;) {	// reverse iterate for draw priority
 			const Json::Value& layer = layers.get(i, Json::Value::null);
@@ -99,12 +100,23 @@ void Loader::setupCompositionJson(Composition& comp, const Json::Value& json)
 			if(layer.isMember("parent")) {
 				children.insert(pair<Layer*,int>(l, layer.get("parent", 0).asInt()));
 			}
+			if(layer.isMember("trackMatte")) {
+				trackmatte.insert(pair<Layer*,int>(l, layer.get("trackMatte", 0).asInt()));
+			}
 		}
 		// search parent
 		for(map<Layer*, int>::iterator child = children.begin(); child != children.end(); ++child) {
 			for(map<Layer*, int>::iterator one = all.begin(); one != all.end(); ++one) {
 				if((*child).second == (*one).second) {
 					(*child).first->setParent((*one).first);
+				}
+			}
+		}
+		// search trackmatte
+		for(map<Layer*, int>::iterator child = trackmatte.begin(); child != trackmatte.end(); ++child) {
+			for(map<Layer*, int>::iterator one = all.begin(); one != all.end(); ++one) {
+				if((*child).second == (*one).second) {
+					static_cast<AVLayer*>((*child).first)->setTrackMatte(static_cast<AVLayer*>((*one).first));
 				}
 			}
 		}
@@ -152,6 +164,7 @@ void Loader::setupAVLayerJson(AVLayer& layer, const Json::Value& json)
 	layer.is_collapse_ = json.get("isCollapse", false).asBool();
 	const string& blend_mode = json.get("blendingMode", "none").asString();
 	if(blend_mode == "none")		{ layer.blend_mode_ = OF_BLENDMODE_DISABLED; }
+	if(blend_mode == "alpha")		{ layer.blend_mode_ = OF_BLENDMODE_ALPHA; }
 	if(blend_mode == "add")			{ layer.blend_mode_ = OF_BLENDMODE_ADD; }
 	if(blend_mode == "subtract")	{ layer.blend_mode_ = OF_BLENDMODE_SUBTRACT; }
 	setupLayerJson(layer, json);
@@ -334,6 +347,7 @@ void Loader::setupMaskJson(Mask& mask, const Json::Value& json)
 	mask.setInverted(json.get("inverted", false).asBool());
 	const string& blend_mode = json.get("mode", "none").asString();
 	if(blend_mode == "none")		{ mask.blend_mode_ = OF_BLENDMODE_DISABLED; }
+	if(blend_mode == "alpha")		{ mask.blend_mode_ = OF_BLENDMODE_ALPHA; }
 	if(blend_mode == "add")			{ mask.blend_mode_ = OF_BLENDMODE_ADD; }
 	if(blend_mode == "subtract")	{ mask.blend_mode_ = OF_BLENDMODE_SUBTRACT; }
 	setupPropertyKeysJson(mask.path_, json);

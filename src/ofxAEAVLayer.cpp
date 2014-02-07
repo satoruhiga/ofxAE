@@ -4,6 +4,12 @@
 
 OFX_AE_NAMESPACE_BEGIN
 
+AVLayer::AVLayer()
+:is_use_trackmatte_(false)
+,trackmatte_layer_(NULL)
+{
+}
+
 AVLayer::~AVLayer()
 {
 	for(vector<Mask*>::iterator it = mask_.begin(); it != mask_.end(); ++it) {
@@ -23,6 +29,9 @@ void AVLayer::allocate(int width, int height, bool use_mask)
 void AVLayer::draw(float alpha)
 {
 	getNode().pushMatrix();
+	if(is_use_trackmatte_) {
+		trackmatte_.beginMask();
+	}
 	if(is_use_mask_) {
 		ofx_mask_.beginMask();
 		if(mask_.empty()) {
@@ -47,6 +56,13 @@ void AVLayer::draw(float alpha)
 	else {
 		render(alpha);
 	}
+	if(is_use_trackmatte_) {
+		trackmatte_.endMask();
+		trackmatte_.begin();
+		trackmatte_layer_->draw(1);
+		trackmatte_.end();
+		trackmatte_.draw();
+	}
 	getNode().popMatrix();
 }
 
@@ -56,6 +72,13 @@ void AVLayer::addMask(Mask *mask)
 	mask_.push_back(mask);
 	properties_.push_back(&mask->getPath());
 	properties_.push_back(&mask->getOpacity());
+}
+
+void AVLayer::setTrackMatte(AVLayer *layer)
+{
+	trackmatte_layer_ = layer;
+	trackmatte_.setup(getWidth(), getHeight());
+	is_use_trackmatte_ = true;
 }
 
 OFX_AE_NAMESPACE_END

@@ -12,6 +12,7 @@ class Marker;
 class AVLayer : public Layer {
 	friend class Loader;
 public:
+	AVLayer();
 	virtual ~AVLayer();
 	void allocate(int width, int height, bool use_mask);
 	void draw(float alpha=1);
@@ -21,6 +22,7 @@ public:
 	bool is3D() { return is_3d_; }
 	bool isCollapse() { return is_collapse_; }
 	void addMask(Mask *mask);
+	void setTrackMatte(AVLayer *layer);
 
 protected:
 	virtual void render(float alpha=1){};
@@ -31,6 +33,9 @@ protected:
 	bool is_use_mask_;
 	vector<Mask*> mask_;
 	ofxMask ofx_mask_;
+	bool is_use_trackmatte_;
+	ofxMask trackmatte_;
+	AVLayer *trackmatte_layer_;
 };
 
 OFX_AE_NAMESPACE_END

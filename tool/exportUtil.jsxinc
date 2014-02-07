@@ -1,25 +1,25 @@
 ﻿ExportUtil = {
 
 DRAWMODE_TABLE : {
-	12: "none",
-	13: "add",
-	14: "subtract",
-
-	/**
-	6012: "none",
+	6012: "alpha",
 	6013: "add",
 	6014: "subtract",
 
-	6212: "none",
+	6212: "alpha",
 	6213: "add",
 	6214: "subtract",
 //	6215: "cross",
-	/**/
+
+	6412: "alpha",
+	6413: "add",
+	6414: "subtract",
+
+	4820: "add",
 },
 
 getDrawMode : function(mode)
 {
-	return this.DRAWMODE_TABLE[mode%100]?this.DRAWMODE_TABLE[mode%100]:mode;
+	return this.DRAWMODE_TABLE[mode]?this.DRAWMODE_TABLE[mode]:mode;
 },
 
 LayerType : {

@@ -189,6 +189,7 @@ function getLayerKeys(layer, startTime, duration) {
 			AnchorPoint:"Anchor Point",
 			Orientation:"Orientation",
 			Zoom:"Zoom"
+			TimeRemapping:"ADBE Time Remapping"
 		};
 		for(var name in propNames) {
 			var val = procPropertyKeys(layer, propNames[name], function(prop,time){return prop.valueAtTime(time,true);});

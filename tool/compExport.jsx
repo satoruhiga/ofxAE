@@ -50,6 +50,10 @@ function proc(comp)
 				obj.isCollapse = l.collapseTransformation;
 			}
 			obj.blendingMode = ExportUtil.getDrawMode(l.blendingMode);
+			if(l.hasTrackMatte) {
+				obj.trackMatteType = l.trackMatteType;
+				obj.trackMatte = l.index-1;
+			}
 		}
 		obj.layerType = ExportUtil.getLayerType(l);
 		if(l.source) {
@@ -110,7 +114,7 @@ function proc(comp)
 	json.layer = new Array();
 	var layers = comp.layers;
 	for(var i = 1; i <= layers.length; ++i) {
-		if(layers[i].enabled) {
+		if(layers[i].enabled || layers[i].isTrackMatte) {
 			json.layer.push(procLayer(layers[i]));
 		}
 	}
