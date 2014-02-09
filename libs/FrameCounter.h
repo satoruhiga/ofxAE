@@ -10,6 +10,7 @@ public:
 	FrameCounter();
 	int update();
 	int getCurrent();
+	void setFrameRate(float frameRate) { frameRate_ = frameRate; }
 	void setLoopState(LoopState state) { loop_ = state; }
 	void setRange(int from, int length) { from_ = from; length_ = length; }
 	void setSpeed(float speed) { speed_ = speed; }
@@ -26,6 +27,7 @@ public:
 
 private:
 	float frame_;
+	float frameRate_;
 	int frame_internal_;
 	int from_, length_;
 	LoopState loop_;

@@ -102,6 +102,7 @@ function proc(comp)
 	json.name = name;
 	json.width = width;
 	json.height = height;
+	json.frameRate = frameRate;
 	json.length = duration*frameRate;
 	var markers = getCompMarker(comp);
 	if(markers && markers.numKeys > 0) {

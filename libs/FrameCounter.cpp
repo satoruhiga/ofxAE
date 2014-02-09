@@ -1,5 +1,6 @@
 #include "FrameCounter.h"
 #include "ofMath.h"
+#include "ofAppRunner.h"
 
 FrameCounter::FrameCounter()
 :frame_(0)
@@ -20,7 +21,7 @@ int FrameCounter::update() {
 		first_ = false;
 	}
 	else {
-		frame_ += speed_;
+		frame_ += speed_ * (ofGetLastFrameTime() / (1. / frameRate_));
 	}
 	frame_internal_ = calcInternalFrame(frame_);
 	return getCurrent();

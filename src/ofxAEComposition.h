@@ -20,6 +20,7 @@ public:
 	~Composition();
 	void allocate(int width, int height);
 	void setLength(int length);
+	void setFrameRate(float frameRate);
 	void setLoopState(FrameCounter::LoopState loop);
 	void setSpeed(float speed);
 	void setBackward(bool backward);

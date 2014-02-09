@@ -30,6 +30,11 @@ void Composition::setLength(int length)
 	frame_.setRange(0, length);
 	frame_default_.setRange(0, length);
 }
+void Composition::setFrameRate(float frameRate)
+{
+	frame_.setFrameRate(frameRate);
+	frame_default_.setFrameRate(frameRate);
+}
 void Composition::setLoopState(FrameCounter::LoopState loop)
 {
 	frame_.setLoopState(loop);
