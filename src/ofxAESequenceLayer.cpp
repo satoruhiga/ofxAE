@@ -5,7 +5,7 @@
 
 OFX_AE_NAMESPACE_BEGIN
 
-SequenceLayer::SequenceLayer()
+SequenceLayer::SequenceLayer() : digit_(0), start_(-1), end_(0)
 {
 	regcomp( &regex_, "(.*)\\[([0-9]+)-([0-9]+)](.+)", REG_EXTENDED );
 }
